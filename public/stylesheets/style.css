@@ -1,15 +1,23 @@
+/* General styles */
+
 body {
   display: flex;
   flex-direction: column;
-
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-
   height: 100vh;
   margin: 0;
 }
 
 a {
   text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  list-style-type: none;
 }
 
 /* Navbar styles */
@@ -44,4 +52,36 @@ a {
 .welcome-title {
   font-size: 24px;
   font-weight: 700;
+}
+
+/* Categories and Items page styles */
+.categories-page,
+.items-page {
+  padding: 24px;
+}
+
+.category-title-and-add,
+.item-title-and-add {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.add-category-btn,
+.add-item-btn {
+  color: white;
+  background-color: black;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+/* Category styles */
+.category-link {
+  color: black;
+  text-decoration: underline;
+  font-size: 24px;
+}
+
+.category-list {
+  margin-bottom: 10px;
 }

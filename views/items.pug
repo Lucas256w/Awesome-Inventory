@@ -1,14 +1,16 @@
 extends layout
 
 block content
-  h1 All Items
-  a(href="item/add") Add New Item
+  div.items-page
+    div.item-title-and-add
+        h1 All Items
+        a.add-item-btn(href="item/add") Add New Item
 
-  if items.length 
-    ul
-      each i in items 
-        li 
-          img(src=i.profile_img, alt="item image")
-          a(href=i.url)  #{i.name}
-  else 
-    p There are no Items.
+    if items.length 
+        ul
+        each i in items 
+            li 
+            img(src=i.profile_img, alt="item image")
+            a(href=i.url)  #{i.name}
+    else 
+        p There are no Items.

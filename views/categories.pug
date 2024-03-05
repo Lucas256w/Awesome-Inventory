@@ -1,13 +1,15 @@
 extends layout
 
-block content 
-  h1 All Categories
-  a(href="category/add") Add New Category
+block content
+  div.categories-page
+    div.category-title-and-add
+        h1 All Categories
+        a.add-category-btn(href="category/add") Add New Category
 
-  if categories.length 
-    ul
-      each cat in categories
-        li 
-          a(href=cat.url)  #{cat.name}
-  else 
-    p There are no Categories.
+    if categories.length 
+        ul
+        each cat in categories
+            li.category-list
+              a.category-link(href=cat.url)  #{cat.name}
+    else 
+        p There are no Categories.
