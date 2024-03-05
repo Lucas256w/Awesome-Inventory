@@ -3,9 +3,11 @@ const Item = require("../models/item");
 const { body, validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 
+const cloudinary = require("../config/cloudinaryConfig");
+
 // GET request for /items, get all items
 exports.item_list = asyncHandler(async (req, res, next) => {
-  const allItems = Item.find().exec();
+  const allItems = await Item.find().exec();
 
   res.render("items", { items: allItems });
 });
@@ -30,9 +32,12 @@ exports.item_delete = asyncHandler(async (req, res, next) => {
 });
 
 // GET request for /item/add, render add item form
-exports.category_add = asyncHandler(async (req, res, next) => {
+exports.item_add = asyncHandler(async (req, res, next) => {
+  const allCategories = await Category.find().exec();
+
   res.render("item_form", {
     title: "Create New Item",
+    categories: allCategories,
   });
 });
 
@@ -70,18 +75,24 @@ exports.item_add_post = [
 
     // If theres a picture
     if (req.file) {
-      const item = new Item({
+      const result = await cloudinary.uploader.upload(req.file.path);
+
+      item = new Item({
         name: req.body.name,
         description: req.body.description,
         category: req.body.category,
         profile_img: result.secure_url,
         cloudinary_id: result.public_id,
+        price: req.body.price,
+        number_in_stock: req.body.number_in_stock,
       });
     } else {
-      const item = new Item({
+      item = new Item({
         name: req.body.name,
         description: req.body.description,
         category: req.body.category,
+        price: req.body.price,
+        number_in_stock: req.body.number_in_stock,
       });
     }
 
@@ -96,7 +107,7 @@ exports.item_add_post = [
       // No errors then save the new record
       await item.save();
 
-      res.redirect(item.url);
+      res.redirect("/inventory/items");
     }
   }),
 ];

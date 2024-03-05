@@ -1,0 +1,14 @@
+extends layout
+
+block content 
+  h1 All Items
+  a(href="item/add") Add New Item
+
+  if items.length 
+    ul
+      each i in items 
+        li 
+          img(src=i.profile_img, alt="item image")
+          a(href=i.url)  #{i.name}
+  else 
+    p There are no Items.

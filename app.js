@@ -3,7 +3,6 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const multer = require("multer");
 
 require("dotenv").config();
 
@@ -11,18 +10,6 @@ const indexRouter = require("./routes/index");
 const inventoryRouter = require("./routes/inventory");
 
 const app = express();
-
-// storing image on servers disk with multer
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    cb(null, "public/images");
-  },
-  filename: function (req, file, cb) {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
-
-const upload = multer({ storage: storage });
 
 //connect to MongoDB
 const mongoose = require("mongoose");
