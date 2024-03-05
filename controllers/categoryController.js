@@ -41,7 +41,6 @@ exports.category_delete = asyncHandler(async (req, res, next) => {
 exports.category_add = asyncHandler(async (req, res, next) => {
   res.render("category_form", {
     title: "Create New Category",
-    req_type: "POST",
   });
 });
 
@@ -97,7 +96,6 @@ exports.category_update = asyncHandler(async (req, res, next) => {
 
   res.render("category_form", {
     title: "Update Category",
-    req_type: "PUT",
     category: category,
   });
 });

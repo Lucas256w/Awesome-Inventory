@@ -3,10 +3,14 @@ extends layout
 block content
   h1= category.name
   p= category.description
-    form(method='POST')
-      div.form-group
-        input(type='hidden', name='categoryid', value=category._id )
-      button.btn(type='submit') Delete
+
+  a(href=`${category._id}/update`) Update 
+
+  form(method='POST')
+    div.form-group
+      input(type='hidden', name='categoryid', value=category._id )
+    button.btn(type='submit') Delete
+  
 
   if item.length 
     ul
