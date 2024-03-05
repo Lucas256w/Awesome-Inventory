@@ -180,3 +180,23 @@ li {
   align-items: center;
   gap: 20px;
 }
+
+/* Form page styles */
+
+.form-page {
+  padding: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+label {
+  font-size: 20px;
+}
+
+textarea {
+  resize: none;
+}

@@ -9,7 +9,7 @@ block content
             h1= item.name
             a.btn(href=`${item._id}/update`) Update 
             form(method='POST')
-                div.form-group
+                div
                 input(type='hidden', name='itemid', value=item._id )
                 button.btn(type='submit') Delete
         p Description: #{item.description}

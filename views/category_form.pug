@@ -1,23 +1,24 @@
 extends layout
 
 block content
+  div.form-page
 
-  h1 #{title}
+    h1 #{title}
 
-  form(method= "POST")
-    div.form-group
-      label(for='name') Category:
-      input#name(type='text', name='name', required, value=(undefined === category ? '' : category.name))
-    div.form-group
-      label(for='description') Description:
-      textarea(name="description", cols="30", rows="10", required)
-        if undefined === category
-          | 
-        else
-          | #{category.description}
-    button.btn.btn-primary(type='submit') Submit
+    form(method= "POST")
+        div.form-group
+            label(for='name') Name:
+            input#name(type='text', name='name', required, value=(undefined === category ? '' : category.name))
+        div.form-group
+            label(for='description') Description:
+            textarea(name="description", cols="30", rows="10", required)
+                if undefined === category
+                    | 
+                else
+                    | #{category.description}
+        button.btn(type='submit') Submit
 
-  if errors
-    ul
-      for error in errors
-        li!= error.msg
+    if errors
+        ul
+            for error in errors
+                li!= error.msg
