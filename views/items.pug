@@ -10,7 +10,12 @@ block content
         div.cards-container
           each i in items
             div.item-card
-              img.card-img(src=i.profile_img, alt="item picture")
+              if i.profile_img
+                div.card-img-container
+                    img.card-img(src=i.profile_img, alt="item image")
+              else 
+                div.card-img-container
+                    img.card-img(src="/images/placeholder.jpeg", alt="no image")
               div.card-info
                 a.card-link.card-name(href=i.url)  #{i.name}
                 a.card-category(href=i.category.url) #{i.category.name}

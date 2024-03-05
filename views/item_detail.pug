@@ -3,7 +3,10 @@ extends layout
 block content
   div.item-detail-page
     div.image-container
-        img.item-page-img(src=item.profile_img, alt="item image")
+        if item.profile_img
+            img.item-page-img(src=item.profile_img, alt="item image")
+        else 
+            img.item-page-img(src="/images/placeholder.jpeg", alt="no image")
     div.info-cotainer
         div.title-container
             h1= item.name
