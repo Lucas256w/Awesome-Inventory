@@ -22,17 +22,17 @@ exports.category_detail = asyncHandler(async (req, res, next) => {
     return next(error);
   }
 
-  res.render("category_detail", { title: category.name, item: item });
+  res.render("category_detail", { category: category, item: item });
 });
 
 // DELETE request for /category/:id, delete category, press delete button
 exports.category_delete = asyncHandler(async (req, res, next) => {
   await Item.updateMany(
-    { category: req.params.id },
+    { category: req.body.categoryid },
     { $set: { category: null } }
   );
 
-  await Category.deleteOne({ _id: req.params.id });
+  await Category.deleteOne({ _id: req.body.categoryid });
 
   res.redirect(`/inventory/categories`);
 });
