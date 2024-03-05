@@ -7,10 +7,14 @@ block content
         a.add-item-btn(href="item/add") Add New Item
 
     if items.length 
-        ul
-        each i in items 
-            li 
-            img(src=i.profile_img, alt="item image")
-            a(href=i.url)  #{i.name}
+        div.cards-container
+          each i in items
+            div.item-card
+              img.card-img(src=i.profile_img, alt="item picture")
+              div.card-info
+                a.card-link.card-name(href=i.url)  #{i.name}
+                a.card-category(href=i.category.url) #{i.category.name}
+                p $#{i.price}
+                p Only #{i.number_in_stock} left in stock
     else 
         p There are no Items.

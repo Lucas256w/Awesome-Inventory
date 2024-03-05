@@ -1,17 +1,18 @@
 extends layout
 
 block content
-  div.image-container
-    img(src=item.profile_img, alt="item image")
-  div.info-cotainer
-    div.title-container
-        h1= item.name
-        a(href=`${item._id}/update`) Update 
-        form(method='POST')
-            div.form-group
-            input(type='hidden', name='itemid', value=item._id )
-            button.btn(type='submit') Delete
-    p= item.description
-    a(href=item.category.url) #{item.category.name}
-    p $#{item.price} 
-    p Number in stock: #{item.number_in_stock}
+  div.item-detail-page
+    div.image-container
+        img.item-page-img(src=item.profile_img, alt="item image")
+    div.info-cotainer
+        div.title-container
+            h1= item.name
+            a.btn(href=`${item._id}/update`) Update 
+            form(method='POST')
+                div.form-group
+                input(type='hidden', name='itemid', value=item._id )
+                button.btn(type='submit') Delete
+        p Description: #{item.description}
+        a(href=item.category.url) #{item.category.name}
+        p $#{item.price} 
+        p Number in stock: #{item.number_in_stock}

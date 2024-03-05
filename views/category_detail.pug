@@ -1,7 +1,7 @@
 extends layout
 
 block content
-  div.item-detail-page
+  div.category-detail-page
     div.name-and-desc
       div.name-add-delete
         h1= category.name
@@ -24,6 +24,6 @@ block content
                 a.card-link(href=i.url)  #{i.name}
                 a.card-link(href=i.category.url) #{i.category.name}
                 p $#{i.price}
-                p Only #{i.number_of_stock} left in stock
+                p Only #{i.number_in_stock} left in stock
     else 
       p There are no Items with this category.

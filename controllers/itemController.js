@@ -8,7 +8,7 @@ const cloudinary = require("../config/cloudinaryConfig");
 
 // GET request for /items, get all items
 exports.item_list = asyncHandler(async (req, res, next) => {
-  const allItems = await Item.find().exec();
+  const allItems = await Item.find().populate("category").exec();
 
   res.render("items", { items: allItems });
 });
