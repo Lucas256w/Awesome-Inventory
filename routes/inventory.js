@@ -23,13 +23,13 @@ router.post("/category/add", category_controller.category_add_post);
 // GET request for /category/:id, display specific category
 router.get("/category/:id", category_controller.category_detail);
 
-// DELETE request for /category/:id, delete category, press delete button
+// POST (DELETE) request for /category/:id, delete category, press delete button
 router.post("/category/:id", category_controller.category_delete);
 
 // GET request for /category/:id/update, render update category form
 router.get("/category/:id/update", category_controller.category_update);
 
-// PUT request for /category/:id/update, update category info
+// POST (PUT) request for /category/:id/update, update category info
 router.post("/category/:id/update", category_controller.category_update_put);
 
 /// Item routes

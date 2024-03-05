@@ -89,6 +89,10 @@ li {
   padding: 24px;
 }
 
+.error {
+  color: red;
+}
+
 .name-and-desc {
   border-bottom: 2px solid black;
 }

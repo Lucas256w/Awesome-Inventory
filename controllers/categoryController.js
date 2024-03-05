@@ -41,10 +41,20 @@ exports.category_detail = asyncHandler(async (req, res, next) => {
 
 // DELETE request for /category/:id, delete category, press delete button
 exports.category_delete = asyncHandler(async (req, res, next) => {
-  await Item.updateMany(
-    { category: req.body.categoryid },
-    { $set: { category: null } }
-  );
+  const [category, item] = await Promise.all([
+    Category.findById(req.body.categoryid).exec(),
+    Item.find({ category: req.body.categoryid }).populate("category").exec(),
+  ]);
+
+  // If there exist items that have the category still, tell user to delete all related items first
+  if (item) {
+    res.render("category_detail", {
+      category: category,
+      item: item,
+      error: "Please delete all corresponding items before deleting category",
+    });
+    return;
+  }
 
   await Category.deleteOne({ _id: req.body.categoryid });
 

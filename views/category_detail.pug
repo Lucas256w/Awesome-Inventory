@@ -12,6 +12,7 @@ block content
           div
             input(type='hidden', name='categoryid', value=category._id )
           button.btn(type='submit') Delete
+      h3.error= error
       p= category.description
     
 
@@ -27,7 +28,7 @@ block content
                   img.card-img(src="/images/placeholder.jpeg", alt="no image")
               div.card-info
                 a.card-link(href=i.url)  #{i.name}
-                a.card-link(href=i.category.url) #{i.category.name}
+                a.card-category(href=i.category.url) #{i.category.name}
                 p $#{i.price}
                 p Only #{i.number_in_stock} left in stock
     else 
