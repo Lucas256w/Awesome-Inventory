@@ -1,21 +1,29 @@
 extends layout
 
 block content
-  h1= category.name
-  p= category.description
+  div.item-detail-page
+    div.name-and-desc
+      div.name-add-delete
+        h1= category.name
 
-  a(href=`${category._id}/update`) Update 
+        a.btn(href=`${category._id}/update`) Update 
 
-  form(method='POST')
-    div.form-group
-      input(type='hidden', name='categoryid', value=category._id )
-    button.btn(type='submit') Delete
-  
+        form(method='POST')
+          div.form-group
+            input(type='hidden', name='categoryid', value=category._id )
+          button.btn(type='submit') Delete
+      p= category.description
+    
 
-  if item.length 
-    ul
-      each i in item
-        li 
-          a(href=i.url)  #{i.name}
-  else 
-    p There are no Items with this category.
+    if item.length 
+        div.cards-container
+          each i in item
+            div.item-card
+              img.card-img(src=i.profile_img, alt="item picture")
+              div.card-info
+                a.card-link(href=i.url)  #{i.name}
+                a.card-link(href=i.category.url) #{i.category.name}
+                p $#{i.price}
+                p Only #{i.number_of_stock} left in stock
+    else 
+      p There are no Items with this category.

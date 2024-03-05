@@ -24,9 +24,7 @@ li {
 .navbar {
   display: flex;
   align-items: center;
-
   height: 60px;
-
   background-color: black;
   box-shadow: 0px 10px gray;
 }
@@ -84,4 +82,63 @@ li {
 
 .category-list {
   margin-bottom: 10px;
+}
+
+/* Item detail page styles*/
+.item-detail-page {
+  padding: 24px;
+}
+
+.name-and-desc {
+  border-bottom: 2px solid black;
+}
+
+.name-add-delete {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.btn {
+  border: none;
+  color: white;
+  font-family: inherit;
+  font-size: 16px;
+  background-color: black;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+.item-card {
+  max-width: 300px;
+  box-shadow: 0 0 5px black;
+  border-radius: 10px;
+}
+
+.cards-container {
+  padding-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(aufo-fill, 300px);
+}
+
+.card-img {
+  width: 100%;
+  border-radius: 10px 10px 0 0;
+  border-bottom: 1px solid black;
+}
+
+.card-info {
+  display: grid;
+  grid-template-rows: repeat(4, 30px);
+  align-items: center;
+  padding: 10px;
+}
+
+.card-link {
+  color: black;
+  text-decoration: underline;
 }
