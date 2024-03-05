@@ -1,14 +1,35 @@
-const mongoose = require("mongoose");
+const express = require("express");
+const router = express.Router();
 
-const Schema = mongoose.Schema;
+// Controller modules
+const category_controller = require("../controllers/categoryController");
 
-const CategorySchema = new Schema({
-  name: { type: String, required: true },
-  description: { type: String, required: true },
+/* Homepage */
+router.get("/", function (req, res, next) {
+  res.redirect("/inventory");
 });
 
-CategorySchema.virtual("url").get(function () {
-  return `/inventory/category/${this._id}`;
-});
+/// Category routes
 
-module.exports = mongoose("Category", CategorySchema);
+// GET request for /categories, display all categories
+router.get("/categories", category_controller.category_list);
+
+// GET request for /category/:id, display specific category
+router.get("/category/:id", category_controller.category_detail);
+
+// DELETE request for /category/:id, delete category, press delete button
+router.delete("/category/:id", category_controller.category_delete);
+
+// GET request for /category/add, render add category form
+router.get("/category/add", category_controller.category_add);
+
+// POST request for /category/add, put new category in database
+router.post("/category/add", category_controller.category_add_post);
+
+// GET request for /category/:id/update, render update category form
+router.get("/category/:id/update", category_controller.category_update);
+
+// PUT request for /category/:id/update, update category info
+router.pu("/category/:id/update", category_controller.category_update_put);
+
+module.exports = router;
