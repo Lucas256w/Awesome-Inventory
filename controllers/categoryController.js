@@ -1,7 +1,8 @@
 const Category = require("../models/category");
 const Item = require("../models/item");
-const { body, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
+const { validateCategory } = require("./validators/categoryValidator");
 
 // GET request for /categories, get all categories
 exports.category_list = asyncHandler(async (req, res, next) => {
@@ -47,16 +48,7 @@ exports.category_add = asyncHandler(async (req, res, next) => {
 // POST request for /category/add, put new category in database
 exports.category_add_post = [
   // Validate and sanitize fields
-  body("name")
-    .trim()
-    .isLength({ min: 1 })
-    .withMessage("Name is needed")
-    .escape(),
-  body("description")
-    .trim()
-    .isLength({ min: 1 })
-    .withMessage("Description is needed")
-    .escape(),
+  validateCategory,
 
   // Process request after validation and sanitization
   asyncHandler(async (req, res, next) => {
@@ -103,16 +95,7 @@ exports.category_update = asyncHandler(async (req, res, next) => {
 // PUT request for /category/:id/update, update category info
 exports.category_update_put = [
   // Validate and sanitize fields
-  body("name")
-    .trim()
-    .isLength({ min: 1 })
-    .withMessage("Name is needed")
-    .escape(),
-  body("description")
-    .trim()
-    .isLength({ min: 1 })
-    .withMessage("Description is needed")
-    .escape(),
+  validateCategory,
 
   // Process request after validation and sanitization
   asyncHandler(async (req, res, next) => {

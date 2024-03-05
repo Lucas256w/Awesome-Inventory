@@ -1,7 +1,8 @@
 const Category = require("../models/category");
 const Item = require("../models/item");
-const { body, validationResult } = require("express-validator");
+const { validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
+const { validateItem } = require("./validators/itemValidator");
 
 const cloudinary = require("../config/cloudinaryConfig");
 
@@ -44,26 +45,7 @@ exports.item_add = asyncHandler(async (req, res, next) => {
 // POST request for /item/add, put new item in database
 exports.item_add_post = [
   // Validate and sanitize fields
-  body("name")
-    .trim()
-    .isLength({ min: 1 })
-    .withMessage("Name is needed")
-    .escape(),
-  body("description")
-    .trim()
-    .isLength({ min: 1 })
-    .withMessage("Description is needed")
-    .escape(),
-  body("price")
-    .trim()
-    .isFloat({ min: 0 })
-    .withMessage("Price must be a positive number")
-    .customSanitizer((value) => Math.round(value * 100) / 100),
-  body("number_in_stock")
-    .trim()
-    .isInt({ min: 0 })
-    .withMessage("Number in stock must be a non-negative integer")
-    .toInt(),
+  validateItem,
 
   // Process request after validation and sanitization
   asyncHandler(async (req, res, next) => {
@@ -107,57 +89,82 @@ exports.item_add_post = [
       // No errors then save the new record
       await item.save();
 
-      res.redirect("/inventory/items");
+      res.redirect(item.url);
     }
   }),
 ];
 
-// // GET request for /item/:id/update, render update item form
-// exports.category_update = asyncHandler(async (req, res, next) => {
-//   const item = await Category.findById(req.params.id).exec();
+// GET request for /item/:id/update, render update item form
+exports.item_update = asyncHandler(async (req, res, next) => {
+  const [item, allCategories] = await Promise.all([
+    Item.findById(req.params.id).exec(),
+    Category.find().exec(),
+  ]);
 
-//   if (item === null) {
-//     const error = new Error("Category not found");
-//     return next(error);
-//   }
+  if (item === null) {
+    const error = new Error("Category not found");
+    return next(error);
+  }
 
-//   res.render("category_form", {
-//     title: "Update Category",
-//     item: item,
-//   });
-// });
+  res.render("item_form", {
+    title: "Update Category",
+    item: item,
+    categories: allCategories,
+  });
+});
 
-// // PUT request for /item/:id/update, update item info
-// exports.category_update_put = [
-//   // Validate and sanitize fields
-//   body("name")
-//     .trim()
-//     .isLength({ min: 1 })
-//     .withMessage("Name is needed")
-//     .escape(),
-//   body("description")
-//     .trim()
-//     .isLength({ min: 1 })
-//     .withMessage("Description is needed")
-//     .escape(),
+// PUT request for /item/:id/update, update item info
+exports.item_update_put = [
+  // Validate and sanitize fields
+  validateItem,
 
-//   // Process request after validation and sanitization
-//   asyncHandler(async (req, res, next) => {
-//     // Extract the validation errors from a request
-//     const errors = validationResult(req);
+  // Process request after validation and sanitization
+  asyncHandler(async (req, res, next) => {
+    // Extract the validation errors from a request
+    const errors = validationResult(req);
 
-//     if (!errors.isEmpty()) {
-//       // If there are errors, load form again wirth err messages
-//       res.render("category_form", { errors: errors.array() });
-//       return;
-//     } else {
-//       // No errors then update the item
-//       await Category.updateOne(
-//         { _id: req.params.id },
-//         { $set: { name: req.body.name, description: req.body.description } }
-//       );
+    if (!errors.isEmpty()) {
+      // If there are errors, load form again wirth err messages
+      res.render("item_form", { errors: errors.array() });
+      return;
+    } else {
+      // No errors then update the item
 
-//       res.redirect(`/inventory/item/${req.params.id}`);
-//     }
-//   }),
-// ];
+      // If theres a picture
+      if (req.file) {
+        const result = await cloudinary.uploader.upload(req.file.path);
+
+        await Item.updateOne(
+          { _id: req.params.id },
+          {
+            $set: {
+              name: req.body.name,
+              description: req.body.description,
+              category: req.body.category,
+              profile_img: result.secure_url,
+              cloudinary_id: result.public_id,
+              price: req.body.price,
+              number_in_stock: req.body.number_in_stock,
+            },
+          }
+        );
+      } else {
+        // If theres no picture
+        await Item.updateOne(
+          { _id: req.params.id },
+          {
+            $set: {
+              name: req.body.name,
+              description: req.body.description,
+              category: req.body.category,
+              price: req.body.price,
+              number_in_stock: req.body.number_in_stock,
+            },
+          }
+        );
+      }
+
+      res.redirect(`/inventory/item/${req.params.id}`);
+    }
+  }),
+];
