@@ -49,4 +49,20 @@ router.post(
   item_controller.item_add_post
 );
 
+// GET request for /category/:id, display specific category
+router.get("/item/:id", item_controller.item_detail);
+
+// POST (DELETE) request for /category/:id, delete category, press delete button
+router.post("/item/:id", item_controller.item_delete);
+
+// GET request for /category/:id/update, render update category form
+router.get("/item/:id/update", item_controller.item_update);
+
+// POST (PUT) request for /category/:id/update, update category info
+router.post(
+  "/item/:id/update",
+  upload.single("uploaded_file"),
+  item_controller.item_update_put
+);
+
 module.exports = router;
