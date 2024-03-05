@@ -17,5 +17,6 @@
 
 -   Express with NodeJS
 -   MongoDB with Mongoose ODM
+-   Pug for views
 -   MVC design pattern
 -   Hosted on Railway
