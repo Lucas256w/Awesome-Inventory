@@ -3,6 +3,8 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const compression = require("compression");
+const helmet = require("helmet");
 
 require("dotenv").config();
 
@@ -10,6 +12,11 @@ const indexRouter = require("./routes/index");
 const inventoryRouter = require("./routes/inventory");
 
 const app = express();
+const RateLimit = require("express-rate-limit");
+const limiter = RateLimit({
+  windowMs: 1 * 60 * 1000, // 1 minute
+  max: 120,
+});
 
 //connect to MongoDB
 const mongoose = require("mongoose");
@@ -28,6 +35,15 @@ app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      "script-src": ["'self'"],
+      "img-src": ["'self'", "*.cloudinary.com"],
+    },
+  })
+);
+app.use(limiter); // Apply rate limiter to all requests
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
