@@ -4,6 +4,19 @@ const { validationResult } = require("express-validator");
 const asyncHandler = require("express-async-handler");
 const { validateCategory } = require("./validators/categoryValidator");
 
+// Get request for /, homepage with number of categories and items
+exports.homepage = asyncHandler(async (req, res, next) => {
+  const [numCategory, numItem] = await Promise.all([
+    Category.countDocuments().exec(),
+    Item.countDocuments().exec(),
+  ]);
+
+  res.render("index", {
+    number_of_categories: numCategory,
+    number_of_items: numItem,
+  });
+});
+
 // GET request for /categories, get all categories
 exports.category_list = asyncHandler(async (req, res, next) => {
   const allCategories = await Category.find().exec();

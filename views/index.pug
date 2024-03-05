@@ -1,4 +1,9 @@
 extends layout
 
 block content
-  p Welcome to the Awesome Inventory! Check out our stock:
+  div.homepage
+    p.welcome-title Welcome to the Awesome Inventory!
+    p.welcome-title Check out our stock:
+    div 
+      p Number of categories: #{number_of_categories}
+      p Number of items: #{number_of_items}

@@ -7,9 +7,7 @@ const category_controller = require("../controllers/categoryController");
 const item_controller = require("../controllers/itemController");
 
 /* Homepage */
-router.get("/", function (req, res, next) {
-  res.render("index");
-});
+router.get("/", category_controller.homepage);
 
 /// Category routes
 
