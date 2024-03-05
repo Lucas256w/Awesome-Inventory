@@ -32,7 +32,7 @@ block content
       input(type="file" name="uploaded_file" accept="image/*")
     div.form-group
       label(for='price') Price:
-      input(type="number" name="price" step="0.01" required value=(undefined === item ? '' : item.price))
+      input(type="number" name="price" step="0.01" required value=(undefined === item ? '' : item.price.toString()))
     div.form-group
       label(for='number_in_stock') Stock:
       input(type="number" name="number_in_stock" required value=(undefined === item ? '' : item.number_in_stock))

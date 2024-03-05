@@ -27,7 +27,7 @@ exports.item_detail = asyncHandler(async (req, res, next) => {
 
 // DELETE request for /item/:id, delete item, press delete button
 exports.item_delete = asyncHandler(async (req, res, next) => {
-  await Item.deleteOne({ _id: req.body.categoryid });
+  await Item.deleteOne({ _id: req.body.itemid });
 
   res.redirect(`/inventory/items`);
 });
@@ -80,7 +80,7 @@ exports.item_add_post = [
 
     if (!errors.isEmpty()) {
       // If there are errors, load form again wirth err messages
-      res.render("category_form", {
+      res.render("item_form", {
         errors: errors.array(),
         item: item,
       });
@@ -102,12 +102,12 @@ exports.item_update = asyncHandler(async (req, res, next) => {
   ]);
 
   if (item === null) {
-    const error = new Error("Category not found");
+    const error = new Error("Item not found");
     return next(error);
   }
 
   res.render("item_form", {
-    title: "Update Category",
+    title: "Update Item",
     item: item,
     categories: allCategories,
   });
